@@ -20,8 +20,8 @@
       data-bs-parent="#accordion"
     >
       <div class="accordion-body">
-        <div class="d-flex justify-content-between mb-3">
-          <div style="width: 49%">
+        <div>
+          <div class="mb-3">
             <h5>Телефон</h5>
             <ul class="list-group">
               <li
@@ -41,7 +41,7 @@
               </li>
             </ul>
           </div>
-          <div style="width: 49%">
+          <div class="mb-3">
             <h5>Электронная почта</h5>
             <ul class="list-group">
               <li
@@ -58,6 +58,25 @@
                     alt="email"
                     class="w-50 h-50"
                 /></a>
+              </li>
+            </ul>
+          </div>
+          <div class="mb-3">
+            <h5>Адрес</h5>
+            <ul class="list-group">
+              <li
+                v-for="address in contact.addresses"
+                :key="address.id"
+                class="list-group-item d-flex justify-content-between align-items-center"
+              >
+                {{ address.address }}
+                <div class="d-flex justify-content-end">
+                  <img
+                    src="../assets/icons8-address-16.png"
+                    alt="address"
+                    style="transform: scale(1.5)"
+                  />
+                </div>
               </li>
             </ul>
           </div>

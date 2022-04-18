@@ -65,6 +65,29 @@
     <a href="#" class="my-2 d-block" @click="addEmail"
       >Добавить электронную почту</a
     >
+    <div
+      v-for="(address, index) in addresses"
+      :key="address.id"
+      class="mb-2 d-flex justify-content-between"
+    >
+      <input
+        type="text"
+        class="form-control"
+        required
+        @input="getAddressInputValue($event, index)"
+        :placeholder="addresses.length > 1 ? `Адрес ${index + 1}` : 'Адрес'"
+      />
+      <button
+        class="btn btn-danger"
+        style="margin-left: 0.5rem"
+        v-if="addresses.length > 1"
+        @click.prevent="deleteInputAddress(address.id)"
+      >
+        <delete-svg />
+      </button>
+    </div>
+
+    <a href="#" class="my-2 d-block" @click="addAddress">Добавить адрес</a>
     <div class="d-flex justify-content-end mt-5">
       <button
         class="btn btn-danger"
@@ -88,6 +111,7 @@ export default {
       name: "",
       phones: [{ phone: "", id: Date.now() }],
       emails: [{ email: "", id: Date.now() }],
+      addresses: [{ address: "", id: Date.now() }],
     };
   },
   methods: {
@@ -98,11 +122,17 @@ export default {
     addEmail() {
       this.emails.push({ email: "", id: Date.now() });
     },
+    addAddress() {
+      this.addresses.push({ address: "", id: Date.now() });
+    },
     getPhoneInputValue(e, idx) {
       return (this.phones[idx].phone = e.target.value);
     },
     getEmailInputValue(e, idx) {
       return (this.emails[idx].email = e.target.value);
+    },
+    getAddressInputValue(e, idx) {
+      return (this.addresses[idx].address = e.target.value);
     },
     deleteInputPhone(id) {
       this.phones = this.phones.filter((phone) => phone.id !== id);
@@ -110,11 +140,15 @@ export default {
     deleteInputEmail(id) {
       this.emails = this.emails.filter((email) => email.id !== id);
     },
+    deleteInputAddress(id) {
+      this.addresses = this.addresses.filter((address) => address.id !== id);
+    },
     submitHandler() {
       this.postContact({
         id: Date.now(),
         name: this.name,
         phones: this.phones,
+        addresses: this.addresses,
         emails: this.emails,
       }).then(() => this.$router.push("/"));
     },

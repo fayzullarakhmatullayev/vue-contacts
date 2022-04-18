@@ -70,6 +70,34 @@
     <a href="#" class="my-2 d-block" @click="addEmail"
       >Добавить электронную почту</a
     >
+
+    <div
+      v-for="(address, index) in singleContact.addresses"
+      :key="address.id"
+      class="mb-2 d-flex justify-content-between"
+    >
+      <input
+        type="text"
+        class="form-control"
+        required
+        @input="getAddressInputValue($event, index)"
+        :value="address.address"
+        :placeholder="
+          singleContact.addresses.length > 1 ? `Адрес ${index + 1}` : 'Адрес'
+        "
+      />
+      <button
+        class="btn btn-danger"
+        style="margin-left: 0.5rem"
+        v-if="singleContact.addresses.length > 1"
+        @click.prevent="deleteInputAddress(address.id)"
+      >
+        <delete-svg />
+      </button>
+    </div>
+
+    <a href="#" class="my-2 d-block" @click="addAddress">Добавить адрес</a>
+
     <div class="d-flex justify-content-end mt-5">
       <button
         class="btn btn-danger"
@@ -106,15 +134,26 @@ export default {
     addEmail() {
       this.singleContact.emails.push({ email: "", id: Date.now() });
     },
+    addAddress() {
+      this.singleContact.addresses.push({ address: "", id: Date.now() });
+    },
     getPhoneInputValue(e, idx) {
       return (this.singleContact.phones[idx].phone = e.target.value);
     },
     getEmailInputValue(e, idx) {
       return (this.singleContact.emails[idx].email = e.target.value);
     },
+    getAddressInputValue(e, idx) {
+      return (this.singleContact.addresses[idx].address = e.target.value);
+    },
     deleteInputPhone(id) {
       this.singleContact.phones = this.singleContact.phones.filter(
         (phone) => phone.id !== id
+      );
+    },
+    deleteInputAddress(id) {
+      this.singleContact.addresses = this.singleContact.addresses.filter(
+        (address) => address.id !== id
       );
     },
     deleteInputEmail(id) {
