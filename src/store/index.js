@@ -25,7 +25,6 @@ export default createStore({
   },
   actions: {
     async postContact(_, contact) {
-      console.log(contact);
       try {
         await fetch(
           "https://vue-contacts-fbbfb-default-rtdb.firebaseio.com/contacts.json",
